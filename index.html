@@ -132,32 +132,52 @@
 
         .amount {
             display: grid;
-            grid-template-columns: 52px minmax(0, 1fr) 52px;
-            gap: 8px;
+            grid-template-columns: 72px minmax(0, 1fr) 72px;
+            gap: 6px;
             align-items: center;
             width: 100%;
             margin-top: 10px;
         }
 
-        .step {
-            width: 52px;
-            height: 52px;
+        .side {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .step,
+        .extra {
             border: 3px solid var(--purple);
-            border-radius: 50%;
             background: var(--peach);
             color: var(--purple);
             font: inherit;
-            font-size: 32px;
             line-height: 1;
             cursor: pointer;
             touch-action: manipulation;
+            text-decoration: none;
         }
 
-        .step:active { transform: translateY(2px); }
+        .step {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            font-size: 32px;
+        }
+
+        .extra {
+            width: 100%;
+            height: 36px;
+            border-radius: 999px;
+            font-size: 15px;
+        }
+
+        .step:active,
+        .extra:active { transform: translateY(2px); }
 
         .medal {
             position: relative;
-            width: min(100%, 118px);
+            width: min(100%, 128px);
             margin: 0 auto;
             aspect-ratio: 1;
         }
@@ -171,18 +191,10 @@
 
         .medal label {
             position: absolute;
-            inset: 18%;
+            inset: 16%;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 0;
-        }
-
-        .euro {
-            font-size: 14px;
-            color: var(--purple);
-            line-height: 1;
         }
 
         #bedrag {
@@ -192,9 +204,10 @@
             background: transparent;
             color: var(--ink);
             font-family: Shrikhand, cursive;
-            font-size: clamp(22px, 6.4vw, 32px);
+            font-size: clamp(18px, 5.1vw, 26px);
             line-height: 1;
             text-align: center;
+            text-decoration: none;
             -webkit-appearance: none;
             appearance: none;
         }
@@ -202,12 +215,22 @@
         #bedrag:focus { outline: none; }
 
         .mededeling {
+            display: block;
+            width: 100%;
             margin: 8px 0 0;
+            border: 0;
+            border-bottom: 2px dashed var(--purple);
+            padding: 4px 8px 6px;
+            background: transparent;
             color: var(--purple);
             font-family: "Trebuchet MS", sans-serif;
             font-size: 16px;
             font-weight: 700;
+            line-height: 1.2;
             text-align: center;
+            text-decoration: none;
+            -webkit-appearance: none;
+            appearance: none;
         }
 
         .hint {
@@ -221,27 +244,34 @@
         }
 
         .qr-card {
-            width: min(100%, 268px);
+            display: grid;
+            width: min(100%, 248px);
             margin-top: 4px;
             padding: 8px;
+            aspect-ratio: 1;
             background: #fff;
             border: 4px solid #5c3317;
             border-radius: 24px;
             box-shadow: 6px 6px 0 rgba(226, 24, 120, 0.18);
         }
 
+        .qr-card canvas,
+        .qr-empty {
+            grid-area: 1 / 1;
+        }
+
         .qr-card canvas {
             display: block;
             width: 100%;
-            height: auto;
+            height: 100%;
             image-rendering: pixelated;
         }
 
         .qr-empty {
             display: grid;
             place-items: center;
-            min-height: 180px;
             margin: 0;
+            padding: 12px;
             color: #8a6248;
             font-family: "Trebuchet MS", sans-serif;
             font-size: 16px;
@@ -277,7 +307,9 @@
 
         .pay:focus-visible,
         .step:focus-visible,
-        #bedrag:focus-visible {
+        .extra:focus-visible,
+        #bedrag:focus-visible,
+        #tekst:focus-visible {
             outline: 3px solid var(--teal);
             outline-offset: 3px;
         }
@@ -314,7 +346,10 @@
             <h1>Mieke's<span>Fuif</span></h1>
 
             <div class="amount">
-                <button type="button" class="step" id="down" aria-label="Euro minder">−</button>
+                <div class="side">
+                    <button type="button" class="step" id="down" aria-label="1,25 euro minder">−</button>
+                    <button type="button" class="extra" id="reset">reset</button>
+                </div>
                 <div class="medal">
                     <svg viewBox="0 0 200 200" aria-hidden="true">
                         <g fill="#5c2a78">
@@ -334,13 +369,15 @@
                         <circle cx="100" cy="100" r="78" fill="#f6c9a4" stroke="#5c2a78" stroke-width="6"/>
                     </svg>
                     <label>
-                        <span class="euro" aria-hidden="true">€</span>
                         <input id="bedrag" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" maxlength="12" aria-label="Bedrag in euro">
                     </label>
                 </div>
-                <button type="button" class="step" id="up" aria-label="Euro meer">+</button>
+                <div class="side">
+                    <button type="button" class="step" id="up" aria-label="1,25 euro meer">+</button>
+                    <button type="button" class="extra" id="plus15">€15</button>
+                </div>
             </div>
-            <p class="mededeling" id="tekst">Miekesfuif 1</p>
+            <input id="tekst" class="mededeling" maxlength="140" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Mededeling">
             <p class="hint" id="hint"></p>
 
             <div class="qr-card" id="qr-card">
@@ -359,12 +396,13 @@
         const IBAN = "BE64734055410752";
         const BASIS = "Miekesfuif";
         const KEY = "miekesfuif-qr-v1";
+        const STEP_CENTS = 125;
+        const ADD_CENTS = 1500;
         const MAX_CENTS = 99999999;
 
         const bedrag = document.getElementById("bedrag");
         const tekst = document.getElementById("tekst");
         const hint = document.getElementById("hint");
-        const card = document.getElementById("qr-card");
         const canvas = document.getElementById("qr");
         const empty = document.getElementById("qr-empty");
         const betaald = document.getElementById("betaald");
@@ -376,7 +414,15 @@
         let lockUntil = 0;
 
         bedrag.value = "-";
+        tekst.value = state.note;
         render();
+        document.fonts.ready.then(() => render());
+        window.addEventListener("resize", () => fitAmount());
+
+        bedrag.addEventListener("pointerdown", clearDash);
+        bedrag.addEventListener("focus", () => {
+            setTimeout(clearDash, 0);
+        });
 
         bedrag.addEventListener("input", () => {
             render();
@@ -388,8 +434,16 @@
             render();
         });
 
+        tekst.addEventListener("input", () => {
+            state.note = tekst.value;
+            save();
+            render();
+        });
+
         document.getElementById("down").addEventListener("click", () => step(-1));
         document.getElementById("up").addEventListener("click", () => step(1));
+        document.getElementById("plus15").addEventListener("click", addFifteen);
+        document.getElementById("reset").addEventListener("click", resetAmount);
 
         betaald.addEventListener("click", () => {
             const now = Date.now();
@@ -397,47 +451,95 @@
             const cents = parseAmount(bedrag.value);
             if (cents == null) return;
             lockUntil = now + 350;
-            const n = state.next;
-            state.next = n + 1;
+            const paid = message();
+            tekst.value = bumpMessage(paid);
+            state.note = tekst.value;
             bedrag.value = "-";
             save();
             render();
-            status.textContent = "Betaling " + n + " genoteerd. Volgende nummer is " + state.next + ".";
+            status.textContent = "Betaling genoteerd. Mededeling is nu " + state.note + ".";
         });
+
+        function clearDash() {
+            if (bedrag.value.trim() !== "-") return;
+            bedrag.value = "";
+            render();
+        }
 
         function step(delta) {
             const current = parseAmount(bedrag.value);
             if (current == null) {
-                bedrag.value = delta > 0 ? formatCents(100) : "-";
+                bedrag.value = delta > 0 ? formatCents(STEP_CENTS) : "-";
             } else {
-                const next = current + delta * 100;
+                const next = current + delta * STEP_CENTS;
                 bedrag.value = next < 1 ? "-" : formatCents(Math.min(MAX_CENTS, next));
             }
+            render();
+        }
+
+        function addFifteen() {
+            const current = parseAmount(bedrag.value) || 0;
+            bedrag.value = formatCents(Math.min(MAX_CENTS, current + ADD_CENTS));
+            render();
+        }
+
+        function resetAmount() {
+            bedrag.value = "-";
             render();
         }
 
         function render() {
             const cents = parseAmount(bedrag.value);
             const valid = cents != null;
-            const message = BASIS + " " + state.next;
-            tekst.textContent = message;
+            const note = message();
+            fitAmount();
             const raw = bedrag.value.trim();
             hint.textContent = valid || raw === "" || raw === "-"
                 ? ""
                 : "Gebruik een bedrag als 15,00.";
             betaald.disabled = !valid;
-            card.hidden = !valid;
             canvas.hidden = !valid;
             empty.hidden = valid;
             if (!valid) {
                 canvas.removeAttribute("aria-label");
                 return;
             }
-            draw(payload(cents, state.next));
-            canvas.setAttribute("aria-label", "QR-code voor " + formatCents(cents) + " euro, mededeling " + message);
+            draw(payload(cents, note));
+            canvas.setAttribute("aria-label", "QR-code voor " + formatCents(cents) + " euro, mededeling " + note);
         }
 
-        function payload(cents, nr) {
+        function fitAmount() {
+            const sample = bedrag.value.trim() || "-";
+            const width = bedrag.clientWidth;
+            if (!width) return;
+            const probe = canvas.getContext("2d");
+            bedrag.style.fontSize = "";
+            let size = parseFloat(getComputedStyle(bedrag).fontSize);
+            probe.font = size + "px Shrikhand, cursive";
+            while (size > 13 && probe.measureText(sample).width > width - 4) {
+                size -= 1;
+                probe.font = size + "px Shrikhand, cursive";
+            }
+            bedrag.style.fontSize = size + "px";
+        }
+
+        function message() {
+            return tekst.value.replace(/[\r\n]+/g, " ").trim().slice(0, 140);
+        }
+
+        function bumpMessage(text) {
+            const match = text.match(/^(.*?)(\d+)$/);
+            if (match && match[2].length < 10) {
+                const n = Number(match[2]) + 1;
+                state.next = Math.max(state.next, n);
+                return (match[1] + n).slice(0, 140);
+            }
+            state.next += 1;
+            const base = text.trim();
+            return ((base ? base + " " : BASIS + " ") + state.next).slice(0, 140);
+        }
+
+        function payload(cents, note) {
             return [
                 "BCD",
                 "002",
@@ -449,7 +551,7 @@
                 epcAmount(cents),
                 "",
                 "",
-                BASIS + " " + nr,
+                note,
             ].join("\r\n");
         }
 
@@ -497,15 +599,19 @@
         }
 
         function load() {
+            const fresh = { next: 1, note: BASIS + " 1" };
             try {
                 const saved = JSON.parse(localStorage.getItem(KEY) || "null");
-                if (saved && Number.isInteger(saved.next) && saved.next >= 1) {
-                    return { next: saved.next };
-                }
+                if (!saved) return fresh;
+                const next = Number.isInteger(saved.next) && saved.next >= 1 ? saved.next : 1;
+                const note = typeof saved.note === "string" && saved.note.trim()
+                    ? saved.note.replace(/[\r\n]+/g, " ").trim().slice(0, 140)
+                    : BASIS + " " + next;
+                return { next, note };
             } catch (error) {
                 /* lege start als de browser geen opslag geeft */
             }
-            return { next: 1 };
+            return fresh;
         }
 
         function save() {
