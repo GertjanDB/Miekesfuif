@@ -408,7 +408,14 @@
         const betaald = document.getElementById("betaald");
         const status = document.getElementById("status");
 
-        qrcode.stringToBytes = qrcode.stringToBytesFuncs["UTF-8"];
+        qrcode.stringToBytes = function (text) {
+            const bytes = [];
+            for (const ch of text) {
+                const code = ch.codePointAt(0);
+                bytes.push(code <= 255 ? code : 63);
+            }
+            return bytes;
+        };
 
         const state = load();
         let lockUntil = 0;
@@ -451,8 +458,7 @@
             const cents = parseAmount(bedrag.value);
             if (cents == null) return;
             lockUntil = now + 350;
-            const paid = message();
-            tekst.value = bumpMessage(paid);
+            tekst.value = resetMessage();
             state.note = tekst.value;
             bedrag.value = "-";
             save();
@@ -524,19 +530,19 @@
         }
 
         function message() {
-            return tekst.value.replace(/[\r\n]+/g, " ").trim().slice(0, 140);
+            let out = "";
+            for (const ch of tekst.value.replace(/[\r\n]+/g, " ")) {
+                const code = ch.codePointAt(0);
+                out += code >= 32 && code <= 255 ? ch : " ";
+            }
+            return out.trim().slice(0, 140);
         }
 
-        function bumpMessage(text) {
-            const match = text.match(/^(.*?)(\d+)$/);
-            if (match && match[2].length < 10) {
-                const n = Number(match[2]) + 1;
-                state.next = Math.max(state.next, n);
-                return (match[1] + n).slice(0, 140);
-            }
-            state.next += 1;
-            const base = text.trim();
-            return ((base ? base + " " : BASIS + " ") + state.next).slice(0, 140);
+        function resetMessage() {
+            const match = message().match(/(\d+)\s*$/);
+            const n = match && match[1].length < 10 ? Number(match[1]) + 1 : state.next + 1;
+            state.next = n;
+            return BASIS + " " + n;
         }
 
         function payload(cents, note) {
@@ -552,7 +558,7 @@
                 "",
                 "",
                 note,
-            ].join("\r\n");
+            ].join("\n") + "\n";
         }
 
         function epcAmount(cents) {
@@ -563,7 +569,7 @@
 
         function draw(text) {
             const qr = qrcode(0, "M");
-            qr.addData(text);
+            qr.addData(text, "Byte");
             qr.make();
             const modules = qr.getModuleCount();
             const quiet = 4;
