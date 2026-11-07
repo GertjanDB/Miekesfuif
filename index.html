@@ -343,7 +343,7 @@
             <p class="mededeling" id="tekst">Miekesfuif 1</p>
             <p class="hint" id="hint"></p>
 
-            <div class="qr-card">
+            <div class="qr-card" id="qr-card">
                 <canvas id="qr" role="img"></canvas>
                 <p class="qr-empty" id="qr-empty" hidden>Vul een geldig bedrag in.</p>
             </div>
@@ -364,6 +364,7 @@
         const bedrag = document.getElementById("bedrag");
         const tekst = document.getElementById("tekst");
         const hint = document.getElementById("hint");
+        const card = document.getElementById("qr-card");
         const canvas = document.getElementById("qr");
         const empty = document.getElementById("qr-empty");
         const betaald = document.getElementById("betaald");
@@ -425,6 +426,7 @@
                 ? ""
                 : "Gebruik een bedrag als 15,00.";
             betaald.disabled = !valid;
+            card.hidden = !valid;
             canvas.hidden = !valid;
             empty.hidden = valid;
             if (!valid) {
