@@ -777,6 +777,7 @@
             resetTaps.push(now);
             bedrag.value = "-";
             gegeven.value = "";
+            mode = "qr";
             if (resetTaps.length >= RESET_TAPS) {
                 resetTaps = [];
                 state.next = 1;
