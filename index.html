@@ -111,23 +111,80 @@
             background: #5c3317;
         }
 
-        h1 {
-            margin: 8px 0 0;
-            font-family: Shrikhand, "Arial Rounded MT Bold", cursive;
-            font-size: clamp(36px, 10vw, 48px);
-            font-weight: 400;
-            line-height: 0.9;
-            text-align: center;
-            color: var(--orange);
-            -webkit-text-stroke: 5px var(--pink);
-            paint-order: stroke fill;
-            text-shadow: 3px 4px 0 #7a2d86;
+        .bonnen {
+            display: grid;
+            gap: 10px;
+            width: 100%;
+            margin-top: 12px;
         }
 
-        h1 span {
-            display: block;
-            color: var(--pink);
-            -webkit-text-stroke: 5px var(--orange);
+        .bon-rij {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 7px;
+        }
+
+        .bon {
+            --c: #2f8fe0;
+            --edge: #155a9c;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 58px;
+            padding: 0;
+            border: 0;
+            border-radius: 7px;
+            background:
+                radial-gradient(circle at 0 50%, transparent 7px, var(--c) 7.5px) left / 51% 100% no-repeat,
+                radial-gradient(circle at 100% 50%, transparent 7px, var(--c) 7.5px) right / 51% 100% no-repeat;
+            color: #fff;
+            font: inherit;
+            line-height: 1;
+            text-shadow: 0 2px 0 var(--edge);
+            filter: drop-shadow(0 3px 0 var(--edge));
+            transform: rotate(-3deg);
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        .bon:nth-child(even) { transform: rotate(2deg); }
+
+        .bon::after {
+            content: "";
+            position: absolute;
+            inset: 5px 11px;
+            border: 2px dashed rgba(255, 255, 255, 0.55);
+            border-radius: 4px;
+            pointer-events: none;
+        }
+
+        .bon.rood {
+            --c: #d8262e;
+            --edge: #8e1218;
+        }
+
+        .bon b {
+            font-size: 26px;
+            font-weight: 400;
+        }
+
+        .bon small {
+            margin-top: 2px;
+            font-family: "Trebuchet MS", sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .bon:active {
+            filter: drop-shadow(0 1px 0 var(--edge));
+            translate: 0 2px;
+        }
+
+        .bon:focus-visible {
+            outline: 3px solid var(--teal);
+            outline-offset: 3px;
         }
 
         .amount {
@@ -278,6 +335,128 @@
             text-align: center;
         }
 
+        .methode {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            width: 100%;
+            margin-top: 12px;
+        }
+
+        .keuze {
+            height: 48px;
+            border: 3px solid var(--purple);
+            border-radius: 999px;
+            background: var(--peach);
+            color: var(--purple);
+            font: inherit;
+            font-size: 18px;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        .keuze[aria-pressed="true"] {
+            background: var(--teal);
+            color: #fffaf3;
+            box-shadow: inset 0 3px 0 rgba(0, 0, 0, 0.15);
+        }
+
+        .keuze:focus-visible {
+            outline: 3px solid var(--teal);
+            outline-offset: 3px;
+        }
+
+        .cash {
+            width: 100%;
+            margin-top: 4px;
+            padding: 12px 14px 14px;
+            background: #fff;
+            border: 4px solid #5c3317;
+            border-radius: 24px;
+            box-shadow: 6px 6px 0 rgba(226, 24, 120, 0.18);
+        }
+
+        .cash-rij {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 8px;
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .cash-rij strong {
+            font-family: Shrikhand, cursive;
+            font-size: 28px;
+            font-weight: 400;
+        }
+
+        .cash label {
+            display: block;
+            margin-top: 12px;
+            font-size: 18px;
+        }
+
+        #gegeven {
+            display: block;
+            width: 100%;
+            height: 52px;
+            margin-top: 4px;
+            border: 3px solid var(--purple);
+            border-radius: 14px;
+            padding: 0 12px;
+            background: #fffaf3;
+            color: var(--ink);
+            font-family: Shrikhand, cursive;
+            font-size: 26px;
+            text-align: center;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        #gegeven:focus-visible {
+            outline: 3px solid var(--teal);
+            outline-offset: 2px;
+        }
+
+        .briefjes {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .briefjes button {
+            height: 44px;
+            border: 3px solid var(--purple);
+            border-radius: 12px;
+            background: var(--peach);
+            color: var(--purple);
+            font: inherit;
+            font-size: 18px;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        .briefjes button:active { transform: translateY(2px); }
+
+        .terug {
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 2px dashed var(--purple);
+            color: var(--teal);
+        }
+
+        .terug.tekort { color: var(--pink); }
+
+        .wacht {
+            margin: 10px 0 0;
+            color: #8a6248;
+            font-family: "Trebuchet MS", sans-serif;
+            font-size: 12px;
+            text-align: center;
+        }
+
         .pay {
             width: 100%;
             height: 64px;
@@ -343,7 +522,23 @@
 
         <div class="sheet">
             <div class="ball" aria-hidden="true"></div>
-            <h1>Mieke's<span>Fuif</span></h1>
+
+            <div class="bonnen" aria-label="Bonnen toevoegen">
+                <div class="bon-rij">
+                    <button type="button" class="bon" data-cents="250" aria-label="1 blauwe bon, 2,50 euro erbij"><b>1</b><small>€2,50</small></button>
+                    <button type="button" class="bon" data-cents="500" aria-label="2 blauwe bonnen, 5 euro erbij"><b>2</b><small>€5,00</small></button>
+                    <button type="button" class="bon" data-cents="750" aria-label="3 blauwe bonnen, 7,50 euro erbij"><b>3</b><small>€7,50</small></button>
+                    <button type="button" class="bon" data-cents="1000" aria-label="4 blauwe bonnen, 10 euro erbij"><b>4</b><small>€10,00</small></button>
+                    <button type="button" class="bon" data-cents="1250" aria-label="5 blauwe bonnen, 12,50 euro erbij"><b>5</b><small>€12,50</small></button>
+                </div>
+                <div class="bon-rij">
+                    <button type="button" class="bon rood" data-cents="375" aria-label="1 rode bon, 3,75 euro erbij"><b>1</b><small>€3,75</small></button>
+                    <button type="button" class="bon rood" data-cents="750" aria-label="2 rode bonnen, 7,50 euro erbij"><b>2</b><small>€7,50</small></button>
+                    <button type="button" class="bon rood" data-cents="1125" aria-label="3 rode bonnen, 11,25 euro erbij"><b>3</b><small>€11,25</small></button>
+                    <button type="button" class="bon rood" data-cents="1500" aria-label="4 rode bonnen, 15 euro erbij"><b>4</b><small>€15,00</small></button>
+                    <button type="button" class="bon rood" data-cents="1875" aria-label="5 rode bonnen, 18,75 euro erbij"><b>5</b><small>€18,75</small></button>
+                </div>
+            </div>
 
             <div class="amount">
                 <div class="side">
@@ -385,13 +580,39 @@
                 <p class="qr-empty" id="qr-empty" hidden>Vul een geldig bedrag in.</p>
             </div>
 
+            <div class="cash" id="cash" hidden>
+                <p class="cash-rij"><span>Te ontvangen</span><strong id="te-ontvangen">-</strong></p>
+                <label for="gegeven">Klant geeft</label>
+                <input id="gegeven" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" maxlength="10" placeholder="€">
+                <div class="briefjes">
+                    <button type="button" data-cents="500">€5</button>
+                    <button type="button" data-cents="1000">€10</button>
+                    <button type="button" data-cents="2000">€20</button>
+                    <button type="button" data-cents="5000">€50</button>
+                </div>
+                <p class="cash-rij terug" id="terug-rij"><span id="terug-label">Terug geven</span><strong id="terug">-</strong></p>
+            </div>
+
+            <div class="methode" role="group" aria-label="Betaalwijze">
+                <button type="button" class="keuze" id="kies-qr" aria-pressed="true">Overschrijving</button>
+                <button type="button" class="keuze" id="kies-cash" aria-pressed="false">Cash</button>
+            </div>
+
             <button type="button" class="pay" id="betaald">Betaald</button>
+            <p class="wacht" id="wacht" hidden></p>
         </div>
     </main>
     <p class="sr" id="status" aria-live="polite"></p>
 
     <script src="qrcode.js"></script>
     <script>
+        // ===== INSTELLING: Google Spreadsheet =====
+        // Plak hier de URL van de Google Apps Script web-app (eindigt op /exec).
+        // Leeg laten = niets wordt verstuurd; betalingen wachten dan op deze telefoon
+        // en worden alsnog verstuurd zodra hier een URL staat.
+        const SHEET_URL = "https://script.google.com/macros/s/AKfycbwxsv1_exei8ltvoB5FlwPzSOay9XKgpp9gZAUUN70l2MJ2f3TKeB-i2huHJCOuJzxzuA/exec";
+        // ==========================================
+
         const NAME = "Jonas De Bot";
         const IBAN = "BE64734055410752";
         const BASIS = "Miekesfuif";
@@ -399,6 +620,10 @@
         const STEP_CENTS = 125;
         const ADD_CENTS = 1500;
         const MAX_CENTS = 99999999;
+        const QUEUE_KEY = "miekesfuif-log-v1";
+        const QUEUE_MAX = 1000;
+        const RESET_TAPS = 5;
+        const RESET_GAP_MS = 1500;
 
         const bedrag = document.getElementById("bedrag");
         const tekst = document.getElementById("tekst");
@@ -407,6 +632,16 @@
         const empty = document.getElementById("qr-empty");
         const betaald = document.getElementById("betaald");
         const status = document.getElementById("status");
+        const qrCard = document.getElementById("qr-card");
+        const cashBox = document.getElementById("cash");
+        const teOntvangen = document.getElementById("te-ontvangen");
+        const gegeven = document.getElementById("gegeven");
+        const terug = document.getElementById("terug");
+        const terugRij = document.getElementById("terug-rij");
+        const terugLabel = document.getElementById("terug-label");
+        const kiesQr = document.getElementById("kies-qr");
+        const kiesCash = document.getElementById("kies-cash");
+        const wacht = document.getElementById("wacht");
 
         qrcode.stringToBytes = function (text) {
             const bytes = [];
@@ -419,6 +654,11 @@
 
         const state = load();
         let lockUntil = 0;
+        let mode = "qr";
+        let resetTaps = [];
+        let notice = "";
+        let noticeTimer = 0;
+        let sending = false;
 
         bedrag.value = "-";
         tekst.value = state.note;
@@ -449,15 +689,57 @@
 
         document.getElementById("down").addEventListener("click", () => step(-1));
         document.getElementById("up").addEventListener("click", () => step(1));
-        document.getElementById("plus15").addEventListener("click", addFifteen);
+        document.getElementById("plus15").addEventListener("click", () => addCents(ADD_CENTS));
         document.getElementById("reset").addEventListener("click", resetAmount);
+
+        document.querySelectorAll(".bon").forEach((knop) => {
+            knop.addEventListener("click", () => addCents(Number(knop.dataset.cents)));
+        });
+
+        kiesQr.addEventListener("click", () => setMode("qr"));
+        kiesCash.addEventListener("click", () => setMode("cash"));
+
+        gegeven.addEventListener("input", () => render());
+        gegeven.addEventListener("blur", () => {
+            const cents = parseAmount(gegeven.value);
+            if (cents != null) gegeven.value = formatCents(cents);
+            render();
+        });
+
+        document.querySelectorAll(".briefjes button").forEach((knop) => {
+            knop.addEventListener("click", () => {
+                gegeven.value = formatCents(Number(knop.dataset.cents));
+                render();
+            });
+        });
+
+        window.addEventListener("online", flush);
+        document.addEventListener("visibilitychange", () => {
+            if (!document.hidden) flush();
+        });
+        setInterval(flush, 30000);
+        flush();
 
         betaald.addEventListener("click", () => {
             const now = Date.now();
             if (now < lockUntil) return;
             const cents = parseAmount(bedrag.value);
             if (cents == null) return;
+            const cash = cashInfo(cents);
+            if (mode === "cash" && !cash.ok) return;
             lockUntil = now + 350;
+            logPayment({
+                id: now.toString(36) + "-" + Math.random().toString(36).slice(2, 8),
+                ts: now,
+                tijd: localTime(new Date(now)),
+                mededeling: message(),
+                bedrag: cents / 100,
+                methode: mode === "cash" ? "Cash" : "Overschrijving",
+                ontvangen: mode === "cash" ? cash.received / 100 : "",
+                terug: mode === "cash" ? cash.change / 100 : "",
+            });
+            gegeven.value = "";
+            mode = "qr";
             tekst.value = resetMessage();
             state.note = tekst.value;
             bedrag.value = "-";
@@ -483,15 +765,113 @@
             render();
         }
 
-        function addFifteen() {
+        function addCents(add) {
             const current = parseAmount(bedrag.value) || 0;
-            bedrag.value = formatCents(Math.min(MAX_CENTS, current + ADD_CENTS));
+            bedrag.value = formatCents(Math.min(MAX_CENTS, current + add));
             render();
         }
 
         function resetAmount() {
+            const now = Date.now();
+            if (resetTaps.length && now - resetTaps[resetTaps.length - 1] > RESET_GAP_MS) resetTaps = [];
+            resetTaps.push(now);
             bedrag.value = "-";
+            gegeven.value = "";
+            if (resetTaps.length >= RESET_TAPS) {
+                resetTaps = [];
+                state.next = 1;
+                state.note = BASIS + " 1";
+                tekst.value = state.note;
+                save();
+                flash("Teller terug op " + state.note);
+            }
             render();
+        }
+
+        function setMode(next) {
+            mode = next === "cash" ? "cash" : "qr";
+            render();
+        }
+
+        function flash(text) {
+            notice = text;
+            status.textContent = text;
+            clearTimeout(noticeTimer);
+            noticeTimer = setTimeout(() => {
+                notice = "";
+                render();
+            }, 2500);
+        }
+
+        function cashInfo(cents) {
+            const raw = gegeven.value.trim();
+            if (raw === "") return { ok: true, empty: true, received: cents, change: 0 };
+            const received = parseAmount(raw);
+            if (received == null) return { ok: false, invalid: true, received: 0, change: 0 };
+            return { ok: received >= cents, received, change: received - cents };
+        }
+
+        function localTime(d) {
+            const two = (n) => String(n).padStart(2, "0");
+            return d.getFullYear() + "-" + two(d.getMonth() + 1) + "-" + two(d.getDate())
+                + " " + two(d.getHours()) + ":" + two(d.getMinutes()) + ":" + two(d.getSeconds());
+        }
+
+        function readQueue() {
+            try {
+                const list = JSON.parse(localStorage.getItem(QUEUE_KEY) || "[]");
+                return Array.isArray(list) ? list : [];
+            } catch (error) {
+                return [];
+            }
+        }
+
+        function writeQueue(list) {
+            try {
+                localStorage.setItem(QUEUE_KEY, JSON.stringify(list.slice(-QUEUE_MAX)));
+            } catch (error) {
+                /* de kassa werkt ook zonder opslag */
+            }
+        }
+
+        function logPayment(entry) {
+            const list = readQueue();
+            list.push(entry);
+            writeQueue(list);
+            setTimeout(flush, 0);
+        }
+
+        async function flush() {
+            showQueue();
+            if (sending || !SHEET_URL) return;
+            sending = true;
+            try {
+                let list = readQueue();
+                while (list.length) {
+                    const entry = list[0];
+                    await fetch(SHEET_URL, {
+                        method: "POST",
+                        mode: "no-cors",
+                        headers: { "Content-Type": "text/plain;charset=utf-8" },
+                        body: JSON.stringify(entry),
+                    });
+                    list = readQueue().filter((item) => item.id !== entry.id);
+                    writeQueue(list);
+                }
+            } catch (error) {
+                /* geen netwerk: later opnieuw proberen */
+            } finally {
+                sending = false;
+                showQueue();
+            }
+        }
+
+        function showQueue() {
+            const count = SHEET_URL ? readQueue().length : 0;
+            wacht.hidden = count === 0;
+            wacht.textContent = count === 1
+                ? "1 betaling wacht nog om naar de lijst te gaan"
+                : count + " betalingen wachten nog om naar de lijst te gaan";
         }
 
         function render() {
@@ -501,8 +881,33 @@
             fitAmount();
             const raw = bedrag.value.trim();
             hint.textContent = valid || raw === "" || raw === "-"
-                ? ""
+                ? notice
                 : "Gebruik een bedrag als 15,00.";
+            const cash = mode === "cash";
+            kiesQr.setAttribute("aria-pressed", String(!cash));
+            kiesCash.setAttribute("aria-pressed", String(cash));
+            qrCard.hidden = cash;
+            cashBox.hidden = !cash;
+            if (cash) {
+                teOntvangen.textContent = valid ? "€" + formatCents(cents) : "-";
+                const info = valid ? cashInfo(cents) : null;
+                terugRij.classList.remove("tekort");
+                terugLabel.textContent = "Terug geven";
+                if (!info || info.empty) {
+                    terug.textContent = "-";
+                } else if (info.invalid) {
+                    terug.textContent = "?";
+                } else if (!info.ok) {
+                    terugRij.classList.add("tekort");
+                    terugLabel.textContent = "Nog tekort";
+                    terug.textContent = "€" + formatCents(cents - info.received);
+                } else {
+                    terug.textContent = "€" + formatCents(info.change);
+                }
+                betaald.disabled = !valid || !info.ok;
+                canvas.removeAttribute("aria-label");
+                return;
+            }
             betaald.disabled = !valid;
             canvas.hidden = !valid;
             empty.hidden = valid;
